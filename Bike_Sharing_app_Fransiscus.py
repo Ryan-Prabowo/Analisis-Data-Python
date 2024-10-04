@@ -17,9 +17,12 @@ st.title("Analisis Bike Sharing by Fransiscus Xaverius Ryan Prabowo")
 # Sidebar untuk filter tanggal (tahun) dan jenis plot
 st.sidebar.header('Filter')
 
-# Filter Tahun
+# Filter Tahun (Checkbox untuk memilih beberapa tahun sekaligus)
 year_options = df_day['dteday'].dt.year.unique().tolist()
-selected_year = st.sidebar.selectbox('Pilih Tahun', year_options)
+selected_years = st.sidebar.multiselect('Pilih Tahun', year_options, default=year_options)
+
+# Filter Bulan (Slider untuk memilih rentang bulan)
+selected_month_range = st.sidebar.slider('Pilih Rentang Bulan', 1, 12, (1, 12))
 
 # Filter Plot
 plot_options = [
@@ -30,9 +33,11 @@ plot_options = [
 ]
 selected_plot = st.sidebar.selectbox('Pilih Plot', plot_options)
 
-# Filter data berdasarkan tahun yang dipilih
-df_day_filtered = df_day[df_day['dteday'].dt.year == selected_year]
-df_hour_filtered = df_hour[df_hour['dteday'].dt.year == selected_year]
+# Filter data berdasarkan tahun yang dipilih dan rentang bulan
+df_day_filtered = df_day[(df_day['dteday'].dt.year.isin(selected_years)) & 
+                         (df_day['dteday'].dt.month.between(selected_month_range[0], selected_month_range[1]))]
+df_hour_filtered = df_hour[(df_hour['dteday'].dt.year.isin(selected_years)) & 
+                           (df_hour['dteday'].dt.month.between(selected_month_range[0], selected_month_range[1]))]
 
 # Helper function untuk plot
 def plot_visualization(selected_plot):
@@ -133,4 +138,3 @@ def plot_visualization(selected_plot):
 plot_visualization(selected_plot)
 
 st.caption('Fransiscus Xaverius Ryan Prabowo')
-
