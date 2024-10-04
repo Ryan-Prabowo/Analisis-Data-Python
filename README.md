@@ -6,7 +6,8 @@ Proyek ini bertujuan untuk menganalisis data penggunaan sepeda dengan menggunaka
 - Heatmap rata-rata rental sepeda per jam dalam satu minggu.
 - Tren penggunaan sepeda berdasarkan musim.
 - Visualisasi kluster waktu berdasarkan pagi, siang, sore, malam.
-- Filter interaktif untuk memilih jenis plot dan data berdasarkan tahun.
+- Visualisasi rata-rata perental sepeda berdasarkan kluster waktu dengan jenis hari (weekday atau workday)
+- Filter interaktif untuk memilih jenis plot dan data berdasarkan tahun dan bulan.
 
 
 
