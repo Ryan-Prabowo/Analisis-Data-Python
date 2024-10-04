@@ -29,7 +29,7 @@ plot_options = [
     'Heatmap Rata-Rata Rental Sepeda per Jam dalam Satu Minggu',
     'Tren Perental Berdasarkan Musim',
     'Clustering Pagi Siang Sore Malam',
-    'Rata-Rata Perental Sepeda Berdasarkan Kluster Waktu dan Hari'
+    'Rata-Rata Perental Sepeda Berdasarkan Kluster Waktu dan Jenis Hari'
 ]
 selected_plot = st.sidebar.selectbox('Pilih Plot', plot_options)
 
@@ -105,6 +105,7 @@ def plot_visualization(selected_plot):
         plt.ylabel('Perental Sepeda')
         plt.legend(title='Hari', loc='upper left')
         st.pyplot(plt)
+
     elif selected_plot == 'Rata-Rata Perental Sepeda Berdasarkan Kluster Waktu dan Jenis Hari':
         # Terapkan fungsi untuk clustering waktu
         def assign_time_cluster(hour):
@@ -134,9 +135,6 @@ def plot_visualization(selected_plot):
         plt.legend(title='Jenis Hari', loc='upper left')
         st.pyplot(plt)
 
-        # Memindahkan legenda ke kiri atas dan biarkan warna otomatis sesuai
-        plt.legend(title='Hari', loc='upper left')
-        st.pyplot(plt)
 # Menampilkan plot berdasarkan filter
 plot_visualization(selected_plot)
 
