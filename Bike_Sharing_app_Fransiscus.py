@@ -134,4 +134,5 @@ plot_visualization(selected_plot)
 
 st.caption('Fransiscus Xaverius Ryan Prabowo')
 
-!streamlit run Bike_Sharing_app_Fransiscus.py
+streamlit run Bike_Sharing_app_Fransiscus.py
+
