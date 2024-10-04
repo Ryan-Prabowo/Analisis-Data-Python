@@ -107,7 +107,7 @@ def plot_visualization(selected_plot):
         st.pyplot(plt)
 
     elif selected_plot == 'Rata-Rata Perental Sepeda Berdasarkan Kluster Waktu dan Hari':
-        # Rata-rata perental sepeda berdasarkan kluster waktu dan jenis hari
+        # Fungsi untuk mengelompokkan waktu berdasarkan jam
         def assign_time_cluster(hour):
             if 0 < hour <= 10:
                 return 'Pagi'
@@ -118,19 +118,28 @@ def plot_visualization(selected_plot):
             else:
                 return 'Malam'
 
+        # Terapkan fungsi untuk clustering waktu
         df_hour_filtered['time_cluster'] = df_hour_filtered['hr'].apply(assign_time_cluster)
+
+        # Mapping 'weekday' menjadi nama hari dalam seminggu
         weekday_mapping = {0: 'Minggu', 1: 'Senin', 2: 'Selasa', 3: 'Rabu', 4: 'Kamis', 5: 'Jumat', 6: 'Sabtu'}
         df_hour_filtered['day_cluster'] = df_hour_filtered['weekday'].map(weekday_mapping)
+
+        # Mengatur urutan kategori hari
         day_order = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
         df_hour_filtered['day_cluster'] = pd.Categorical(df_hour_filtered['day_cluster'], categories=day_order, ordered=True)
 
+        # Menghitung rata-rata penggunaan sepeda di setiap kluster waktu dan hari
         cluster_analysis = df_hour_filtered.groupby(['time_cluster', 'day_cluster'])['cnt'].mean().reset_index()
 
+        # Visualisasi: Bar Plot untuk Penggunaan Sepeda Berdasarkan Kluster Waktu dan Hari
         plt.figure(figsize=(12, 6))
         sns.barplot(x='time_cluster', y='cnt', hue='day_cluster', data=cluster_analysis, palette='Set2')
-        plt.title('Rata-rata Perental Sepeda Berdasarkan Cluster Waktu Dalam Satu Minggu')
+        plt.title('Rata-rata Perental Sepeda Berdasarkan Kluster Waktu dan Hari')
         plt.xlabel('Cluster Waktu')
         plt.ylabel('Perental Sepeda')
+
+        # Memindahkan legenda ke kiri atas dan biarkan warna otomatis sesuai
         plt.legend(title='Hari', loc='upper left')
         st.pyplot(plt)
 
