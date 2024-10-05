@@ -30,6 +30,6 @@ pip install -r requirements.txt
 
 ## Run steamlit app
 ```
-streamlit run Bike_Sharing_app_Fransiscus.py.py
+streamlit run Bike_Sharing_app_Fransiscus.py
 ```
 atau gunakan link berikut https://fransiscus-bikesharing.streamlit.app/
