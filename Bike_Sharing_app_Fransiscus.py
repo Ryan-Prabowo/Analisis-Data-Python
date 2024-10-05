@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 # Load dataset
 df_day = pd.read_csv('day.csv')  # Pastikan file ada di direktori yang benar
@@ -54,29 +55,51 @@ def plot_visualization(selected_plot):
         st.pyplot(plt)
 
     elif selected_plot == 'Tren Perental Berdasarkan Musim':
-        # Tren perental terhadap musim
+        # Menghitung tren perental berdasarkan musim
         season_summary = df_day_filtered.groupby('season')[['casual', 'registered', 'cnt']].sum().reset_index()
+
+        # Set ukuran gambar untuk semua plot
         plt.figure(figsize=(15, 15))
-        plt.subplot(3, 1, 1)
-        sns.barplot(x='season', y='casual', data=season_summary, palette='Set1')
+
+        # Definisikan label musim dan palet warna yang sama untuk digunakan di setiap plot
+        season_labels = ['Musim Semi', 'Musim Panas', 'Musim Gugur', 'Musim Dingin']
+        palette1 = sns.color_palette("Set1", 4)
+        palette2 = sns.color_palette("Set2", 4)
+        palette3 = sns.color_palette("Set3", 4)
+
+        # Buat legenda secara manual
+        legend_patches = [mpatches.Patch(color=palette1[i], label=season_labels[i]) for i in range(4)]
+
+        # Bar Chart untuk Casual
+        plt.subplot(3, 1, 1)  # 3 baris, 1 kolom, subplot ke-1
+        sns.barplot(x='season', y='casual', data=season_summary, palette=palette1)
         plt.title('Total Perental Tetap Berdasarkan Musim')
         plt.xlabel('Musim')
         plt.ylabel('Pelanggan Tetap')
+        plt.legend(handles=legend_patches, title='Musim', loc='upper left')
 
-        plt.subplot(3, 1, 2)
-        sns.barplot(x='season', y='registered', data=season_summary, palette='Set2')
+        # Bar Chart untuk Registered
+        plt.subplot(3, 1, 2)  # 3 baris, 1 kolom, subplot ke-2
+        sns.barplot(x='season', y='registered', data=season_summary, palette=palette2)
         plt.title('Total Perental Baru Berdasarkan Musim')
         plt.xlabel('Musim')
         plt.ylabel('Perental Baru')
+        legend_patches = [mpatches.Patch(color=palette2[i], label=season_labels[i]) for i in range(4)]
+        plt.legend(handles=legend_patches, title='Musim', loc='upper left')
 
-        plt.subplot(3, 1, 3)
-        sns.barplot(x='season', y='cnt', data=season_summary, palette='Set3')
+        # Bar Chart untuk Count
+        plt.subplot(3, 1, 3)  # 3 baris, 1 kolom, subplot ke-3
+        sns.barplot(x='season', y='cnt', data=season_summary, palette=palette3)
         plt.title('Total Perental Sepeda Berdasarkan Musim')
         plt.xlabel('Musim')
         plt.ylabel('Perental Sepeda')
+        legend_patches = [mpatches.Patch(color=palette3[i], label=season_labels[i]) for i in range(4)]
+        plt.legend(handles=legend_patches, title='Musim', loc='upper left')
 
+        # Atur layout agar tidak overlap
         plt.tight_layout()
         st.pyplot(plt)
+
 
     elif selected_plot == 'Clustering Pagi Siang Sore Malam':
         # Clustering pagi siang sore malam
